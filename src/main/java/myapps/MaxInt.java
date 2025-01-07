@@ -42,7 +42,7 @@ public class MaxInt {
 
         KStream<String, Long> source = builder.stream("streams-long-nums");
         
-        source.process(NumProcessor::new, stateStoreName).to("example-nums-output");
+        source.process(() -> new NumProcessor(stateStoreName), stateStoreName).to("example-nums-output");
 
         final Topology topology = builder.build();
         final KafkaStreams streams = new KafkaStreams(topology, props);

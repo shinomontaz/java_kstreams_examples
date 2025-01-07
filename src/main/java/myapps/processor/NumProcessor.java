@@ -11,12 +11,17 @@ public class NumProcessor implements Processor<String, Long, String, Long> {
 
     private ProcessorContext<String, Long> context;
     private KeyValueStore<String, Long> stateStore;
+    private String stateStoreName;
+
+    public NumProcessor(String stateStoreName) {
+        this.stateStoreName = stateStoreName;
+    }
   
     @Override
     @SuppressWarnings("unchecked")
     public void init(final ProcessorContext<String, Long> context) {
         this.context = context;
-        this.stateStore = context.getStateStore("maxnum-store");
+        this.stateStore = context.getStateStore(this.stateStoreName);
     }
   
     public void process(final Record<String, Long> record) {
